@@ -5,13 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p ${PORT:-3000}",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@heliofi/checkout-react": "2.0.0",
     "@supabase/ssr": "0.6.1",
-    "@supabase/supabase-js": "2.39.0",
+    "@supabase/supabase-js": "2.43.4",
     "clsx": "2.0.0",
     "date-fns": "2.30.0",
     "framer-motion": "10.18.0",
