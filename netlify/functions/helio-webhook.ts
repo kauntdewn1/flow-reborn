@@ -6,6 +6,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+const verifyHelioToken = (token: string | null): boolean => {
+  if (!token) return false
+  return token === `Bearer ${process.env.HELIO_SHARED_TOKEN}`
+}
+
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
@@ -15,32 +20,37 @@ export const handler: Handler = async (event) => {
   }
 
   try {
+    // Verificar token do Helio
+    const authHeader = event.headers['authorization']
+    if (!verifyHelioToken(authHeader)) {
+      return {
+        statusCode: 401,
+        body: JSON.stringify({ error: 'Invalid authorization token' })
+      }
+    }
+
     const payload = JSON.parse(event.body || '{}')
-    const signature = event.headers['helio-signature']
+    const { event: eventType, email, subscriptionState, subscriptionId, transactionObject } = payload
 
-    // TODO: Implementar verificação de assinatura
-    // if (!verifySignature(payload, signature)) {
-    //   return {
-    //     statusCode: 401,
-    //     body: JSON.stringify({ error: 'Invalid signature' })
-    //   }
-    // }
-
-    const { event: eventType, data } = payload
-
-    if (eventType === 'payment.success') {
-      const { customer, payment } = data
+    if (eventType === 'STARTED' && subscriptionState === 'NEW') {
+      const { meta } = transactionObject
 
       // Registrar transação no Supabase
       const { error: transactionError } = await supabase
         .from('transactions')
         .insert({
-          customer_id: customer.id,
-          payment_id: payment.id,
-          amount: payment.amount,
-          currency: payment.currency,
-          status: payment.status,
-          metadata: payment.metadata,
+          customer_id: meta.customerDetails.email,
+          payment_id: transactionObject.id,
+          amount: meta.amount,
+          currency: meta.currency.id,
+          status: meta.transactionStatus,
+          metadata: {
+            subscriptionId,
+            subscriptionState,
+            transactionType: meta.transactionType,
+            customerDetails: meta.customerDetails,
+            tokenQuote: meta.tokenQuote
+          }
         })
 
       if (transactionError) {
@@ -54,8 +64,13 @@ export const handler: Handler = async (event) => {
       // Atualizar status de acesso do usuário
       const { error: userError } = await supabase
         .from('users')
-        .update({ has_access: true })
-        .eq('email', customer.email)
+        .update({ 
+          has_access: true,
+          subscription_id: subscriptionId,
+          subscription_state: subscriptionState,
+          last_payment_date: new Date().toISOString()
+        })
+        .eq('email', email)
 
       if (userError) {
         console.error('Erro ao atualizar acesso do usuário:', userError)
