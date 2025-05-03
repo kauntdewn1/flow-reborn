@@ -22,5 +22,8 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["node_modules/", ".next/", "out/", "public/"]
+  "ignorePatterns": ["node_modules/", ".next/", "out/", "public/"],
+  "linterOptions": {
+    "reportUnusedDisableDirectives": true
+  }
 }
