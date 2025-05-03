@@ -7,39 +7,60 @@ Este documento lista todas as dependências essenciais e recomendações de bibl
 ## 📁 Dependências principais
 
 ### Framework & Core
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **Next.js** (`^14.x` ou superior)
 - **React** (`^18.x` ou superior)
 - **TypeScript** (`^5.x`)
 
 ### Estilo
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **Tailwind CSS**
 - **styled-components**
 - **postcss**
 - **autoprefixer**
 
 ### Animações e UI
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **framer-motion**
 - **lucide-react** (ícones)
 
 ### Feedbacks e Notificações
+<<<<<<< HEAD
 
 - **react-hot-toast**
 
 ### Backend e Autenticação
 
+=======
+- **react-hot-toast**
+
+### Backend e Autenticação
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **@supabase/supabase-js**
 - **@supabase/auth-helpers-nextjs** *(se necessário para autenticação mais avançada)*
 
 ### Utilitários
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **clsx** *(condicional de classes)*
 - **date-fns** *(formatação de datas)*
 
 ### SEO & Head Management
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **next/head** *(já incluso no Next.js)*
 
 ---
@@ -70,7 +91,11 @@ npm audit fix --force
 - `NEXT_PUBLIC_SUPABASE_URL=`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY=`
 
+<<<<<<< HEAD
 > Nota: Estas variáveis são necessárias apenas se o Supabase estiver ativo.
+=======
+*(Essas são necessárias apenas se Supabase estiver ativo.)*
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 
 ---
 
@@ -83,4 +108,8 @@ npm audit fix --force
 
 ---
 
+<<<<<<< HEAD
 > Mantenha este arquivo sempre atualizado conforme novas libs forem adicionadas ao projeto.
+=======
+> Mantenha este arquivo sempre atualizado conforme novas libs forem adicionadas ao projeto. 
+>>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
