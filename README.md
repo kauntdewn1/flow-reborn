@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FLOW//REBORN
 
-## Getting Started
+Projeto de sobrevivência digital com interface militar/hacker.
 
-First, run the development server:
+## 📦 Dependências principais
+
+### 🔧 Instalação rápida
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🧱 Pacotes Essenciais
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Pacote | Função Principal |
+|--------|------------------|
+| next | Framework React para SSR e SSG |
+| react | Biblioteca base para UI |
+| typescript | Tipagem estática segura |
+| tailwindcss | Estilização rápida e responsiva |
+| lucide-react | Ícones modernos e leves |
+| framer-motion | Animações insanas (motion, transitions) |
+| react-hot-toast | Toasts para notificações e feedbacks |
+| @supabase/supabase-js | Integração com Supabase |
+| clsx | Combinar classes CSS com lógica condicional |
+| eslint, prettier | Padrões de código e formatação automática |
+| postcss, autoprefixer | Utilitários para o Tailwind funcionar corretamente |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🛠️ Comandos Úteis
 
-## Learn More
+```bash
+npm run dev        # Rodar ambiente de desenvolvimento
+npm run build      # Build de produção otimizado
+npm run lint       # Verificar erros e padrões de código
+npm run start      # Rodar build de produção
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Estrutura do Projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```plaintext
+mello-reburn/
+├── app/                    # Páginas e rotas da aplicação
+│   ├── bunker/            # Área de membros
+│   ├── dashboard/         # Painel principal
+│   ├── mentoria/          # Página de mentoria
+│   └── profile/           # Perfil do usuário
+├── components/            # Componentes reutilizáveis
+├── public/               # Arquivos estáticos
+└── styles/              # Estilos globais
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔐 Variáveis de Ambiente
 
-## Deploy on Vercel
+Crie um arquivo `.env.local` na raiz do projeto:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 Deploy
+
+O projeto está configurado para deploy na Vercel:
+
+1. Conecte seu repositório
+2. Configure as variáveis de ambiente
+3. Deploy automático a cada push
+
+## 📝 Licença
+
+Todos os direitos reservados © MELLØ
