@@ -5,13 +5,14 @@ import { motion } from 'framer-motion';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'react-hot-toast';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default function Acesso() {
+export default function AcessoPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -60,45 +61,58 @@ export default function Acesso() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-500 font-mono flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
-      >
-        <div className="bg-gray-900 p-8 rounded-lg border border-green-500">
-          <h1 className="text-3xl font-bold mb-6 text-center">ACESSO RESTRITO</h1>
-
-          <form onSubmit={verificarAcesso} className="space-y-6">
-            <div>
-              <label className="block text-sm mb-2">Email Autorizado</label>
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="seu@email.com"
-                className="w-full bg-black border border-green-500 p-3 rounded focus:outline-none focus:border-green-400"
-                required
-              />
+    <div className="min-h-screen bg-black text-white py-20">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <h1 className="text-4xl font-bold mb-8">Verificação de Acesso</h1>
+          
+          <div className="max-w-2xl mx-auto bg-zinc-900 border border-zinc-800 rounded-lg p-8">
+            <h2 className="text-2xl font-semibold mb-6">Status do Acesso</h2>
+            
+            <div className="space-y-6">
+              <div className="flex items-center justify-between p-4 bg-zinc-800 rounded-lg">
+                <span className="text-gray-300">Status do Pagamento:</span>
+                <span className="text-green-500 font-medium">✅ Confirmado</span>
+              </div>
+              
+              <div className="flex items-center justify-between p-4 bg-zinc-800 rounded-lg">
+                <span className="text-gray-300">Acesso ao Bunker:</span>
+                <span className="text-green-500 font-medium">✅ Ativo</span>
+              </div>
+              
+              <div className="flex items-center justify-between p-4 bg-zinc-800 rounded-lg">
+                <span className="text-gray-300">Bot do Telegram:</span>
+                <a 
+                  href="https://t.me/FlowRebornBot" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-indigo-400 hover:text-indigo-300"
+                >
+                  @FlowRebornBot
+                </a>
+              </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full bg-green-500 text-black p-3 rounded font-bold transition-colors ${
-                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600'
-              }`}
-            >
-              {loading ? 'VERIFICANDO...' : 'SOLICITAR ACESSO'}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center text-sm opacity-75">
-            <p>⚠️ Acesso restrito apenas para membros autorizados</p>
-            <p className="mt-2">Entre em contato com o administrador para solicitar acesso</p>
+            <div className="mt-8 space-y-4">
+              <p className="text-gray-400">
+                Seu acesso está ativo. Use o bot do Telegram para entrar no Bunker.
+              </p>
+              
+              <Link 
+                href="/"
+                className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+              >
+                Voltar para a Base
+              </Link>
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'react-hot-toast';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -51,6 +52,7 @@ interface Recompensa {
 const niveis = ['Recruta', 'Soldado', 'Executor', 'Fantasma', 'Mestre', 'Lenda'];
 
 export default function Profile() {
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [desafios, setDesafios] = useState<Desafio[]>([]);
   const [recompensas, setRecompensas] = useState<Recompensa[]>([]);
@@ -75,6 +77,7 @@ export default function Profile() {
 
       if (!session) {
         toast.error('Sessão expirada');
+        router.push('/login');
         return;
       }
 
@@ -92,9 +95,20 @@ export default function Profile() {
           .order('data_obtencao', { ascending: false }),
       ]);
 
-      if (userRes.error) throw userRes.error;
-      if (desafiosRes.error) throw desafiosRes.error;
-      if (recompensasRes.error) throw recompensasRes.error;
+      if (userRes.error) {
+        console.error('Erro ao carregar usuário:', userRes.error);
+        throw userRes.error;
+      }
+      
+      if (desafiosRes.error) {
+        console.error('Erro ao carregar desafios:', desafiosRes.error);
+        throw desafiosRes.error;
+      }
+      
+      if (recompensasRes.error) {
+        console.error('Erro ao carregar recompensas:', recompensasRes.error);
+        throw recompensasRes.error;
+      }
 
       setUser(userRes.data);
       setDesafios(desafiosRes.data || []);
@@ -105,8 +119,9 @@ export default function Profile() {
         two_factor_enabled: userRes.data.two_factor_enabled,
       });
     } catch (error) {
+      console.error('Erro detalhado:', error);
       toast.error('Erro ao carregar dados');
-      console.error(error);
+      router.push('/login');
     } finally {
       setLoading(false);
     }
@@ -170,13 +185,19 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-black text-green-500 font-mono">
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-black text-green-500 font-mono">
         <div className="animate-pulse">CARREGANDO FICHA...</div>
       </div>
     );
   }
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)] bg-black text-red-500 font-mono">
+        <div>ACESSO NEGADO</div>
+      </div>
+    );
+  }
 
   const xpPorcentagem = (user.xp_atual / user.xp_proximo_nivel) * 100;
   const nivelAtual = niveis[Math.min(user.nivel, niveis.length - 1)];

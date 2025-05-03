@@ -5,36 +5,61 @@ import Link from 'next/link';
 
 export default function CallToAction() {
   return (
-    <section className="relative py-20 bg-black text-white overflow-hidden">
+    <section className="py-20 bg-black text-center px-6 text-white relative overflow-hidden">
       {/* Efeito de scanline */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/5 to-transparent animate-scan" />
 
-      <div className="max-w-4xl mx-auto px-4 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-4xl md:text-5xl font-extrabold text-red-600 mb-6 tracking-tight leading-tight"
+      >
+        ENTRE OU DESAPAREÇA. <br />
+        <motion.span
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="text-white/60 text-base md:text-lg block mt-3 italic hover:text-red-500 transition-all duration-300"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-red-600 mb-6">ENTRE NO CAOS</h2>
-          <p className="text-zinc-400 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-            Não é curso. É sobrevivência digital. Pra quem tá devendo, falido, e ainda quer ganhar
-            dinheiro no próprio caos.
-          </p>
+          E não conte pra ninguém que viu esse site.
+        </motion.span>
+      </motion.h2>
 
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              href="/checkout"
-              className="inline-flex items-center px-8 py-3 text-lg font-medium text-black bg-green-500 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-            >
-              ENTRAR
-            </Link>
-          </motion.div>
+      {/* BOTÃO TERMINAL */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.6 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Link
+          href="/checkout"
+          className="relative inline-block px-10 py-4 bg-black border-2 border-green-500 text-green-400 font-bold rounded-lg shadow-md text-lg tracking-widest overflow-hidden group hover:scale-105 transition-all duration-300"
+        >
+          <span className="relative z-10">DESBLOQUEAR O CAOS</span>
+          <span
+            className="absolute inset-0 bg-green-500 opacity-10 blur-lg group-hover:opacity-20 transition-opacity duration-300"
+          />
+          <span
+            className="absolute inset-0 border border-green-500 animate-pulse opacity-30 rounded-lg pointer-events-none"
+          />
+        </Link>
+      </motion.div>
 
-          <p className="mt-6 text-zinc-500 text-sm">
-            Acesso vitalício • Suporte 24/7 • Atualizações constantes
-          </p>
-        </motion.div>
-      </div>
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.8 }}
+        className="mt-6 text-sm text-zinc-500 italic"
+      >
+        Acesso vitalício • Suporte cifrado 24/7 • Atualizações nas sombras
+      </motion.p>
     </section>
   );
 }

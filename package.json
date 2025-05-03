@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@heliofi/checkout-react": "^2.0.0",
-    "@supabase/ssr": "^0.1.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.39.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",

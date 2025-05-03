@@ -31,6 +31,7 @@ Este documento lista todas as dependências essenciais e recomendações de bibl
 ### Backend e Autenticação
 
 - **@supabase/supabase-js**
+- **@supabase/ssr**
 - **@supabase/auth-helpers-nextjs** _(se necessário para autenticação mais avançada)_
 
 ### Utilitários
