@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['res.cloudinary.com'],
-  },
+  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ['images.unsplash.com'],
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
