@@ -26,4 +26,18 @@
   SUPABASE_DATABASE_URL = ""
   SUPABASE_JWT_SECRET = ""
   SUPABASE_SERVICE_ROLE_KEY = ""
-  VITE_ULTRAMSG_TOKEN = "" 
+  VITE_ULTRAMSG_TOKEN = ""
+
+# Configurações de cache
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache do Next.js
+[cache]
+  directory = ".next/cache"
+  paths = [
+    ".next/cache",
+    "node_modules/.cache"
+  ] 
