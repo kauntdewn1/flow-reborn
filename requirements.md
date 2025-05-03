@@ -42,6 +42,11 @@ Este documento lista todas as dependências essenciais e recomendações de bibl
 
 - **next/head** *(já incluso no Next.js)*
 
+### Adicionais
+
+- **Netlify CLI**
+- **@netlify/plugin-nextjs**
+
 ---
 
 ## 📦 Comandos recomendados
@@ -61,6 +66,22 @@ npm install @supabase/supabase-js
 
 # Corrigir possíveis vulnerabilidades
 npm audit fix --force
+
+# Instalar Netlify CLI e plugin Next.js
+npm install -g netlify-cli
+npm install -D @netlify/plugin-nextjs
+
+# Iniciar servidor de desenvolvimento
+npm run dev
+
+# Build do projeto
+npm run build
+
+# Iniciar em produção
+npm run start
+
+# Verificar linting
+npm run lint
 ```
 
 ---
@@ -72,6 +93,8 @@ npm audit fix --force
 - `NEXT_PUBLIC_HELIO_API_KEY=`
 - `HELIO_API_SECRET=`
 - `HELIO_SHARED_TOKEN=`
+- `NEXT_PUBLIC_SUPABASE_DATABASE_URL=`
+- `NEXT_PUBLIC_SITE_URL=`
 
 > Nota: Estas variáveis são necessárias apenas se o Supabase e Helio estiverem ativos.
 
@@ -83,6 +106,11 @@ npm audit fix --force
 - [ ] Executar `npm run dev` sem erros
 - [ ] Confirmar que `/landing`, `/login` e `/dashboard` estão acessíveis
 - [ ] Executar build com `npm run build` com sucesso
+- [ ] Verificar se todas as dependências foram instaladas corretamente
+- [ ] Configure as variáveis de ambiente
+- [ ] Execute o servidor de desenvolvimento para testar
+- [ ] Verifique se o build está funcionando
+- [ ] Configure o Netlify CLI e plugin Next.js
 
 ---
 

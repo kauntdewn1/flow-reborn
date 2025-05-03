@@ -1,9 +1,13 @@
 [build]
   command = "npm run build"
   publish = ".next"
+  functions = "netlify/functions"
 
 [functions]
   directory = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [[redirects]]
   from = "/api/*"
@@ -13,4 +17,13 @@
 [build.environment]
   NEXT_PUBLIC_HELIO_API_KEY = ""
   HELIO_API_SECRET = ""
-  HELIO_SHARED_TOKEN = "" 
+  HELIO_SHARED_TOKEN = ""
+  NEXT_PUBLIC_SITE_URL = ""
+  NEXT_PUBLIC_SUPABASE_ANON_KEY = ""
+  NEXT_PUBLIC_SUPABASE_DATABASE_URL = ""
+  NEXT_PUBLIC_SUPABASE_URL = ""
+  SUPABASE_ANON_KEY = ""
+  SUPABASE_DATABASE_URL = ""
+  SUPABASE_JWT_SECRET = ""
+  SUPABASE_SERVICE_ROLE_KEY = ""
+  VITE_ULTRAMSG_TOKEN = "" 
