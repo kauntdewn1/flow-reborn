@@ -14,7 +14,7 @@ export default function HeroSection() {
       setWordIndex((prev) => (prev + 1) % words.length)
     }, 1600)
     return () => clearInterval(interval)
-  }, [])
+  }, [words.length])
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black px-4 py-16 md:py-24">
