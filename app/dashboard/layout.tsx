@@ -15,11 +15,7 @@ const supabase = createClient(
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
-  useEffect(() => {
-    verificarAcesso();
-  }, []);
-
-  async function verificarAcesso() {
+  const verificarAcesso = async () => {
     try {
       const {
         data: { session },
@@ -44,7 +40,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       console.error('Erro ao verificar acesso:', error);
       router.push('/acesso');
     }
-  }
+  };
+
+  useEffect(() => {
+    verificarAcesso();
+  }, [verificarAcesso]);
 
   return (
     <div className="min-h-screen bg-black flex flex-col">

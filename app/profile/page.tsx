@@ -64,11 +64,7 @@ export default function Profile() {
     two_factor_enabled: false,
   });
 
-  useEffect(() => {
-    carregarDados();
-  }, []);
-
-  async function carregarDados() {
+  const carregarDados = async () => {
     try {
       setLoading(true);
       const {
@@ -125,7 +121,11 @@ export default function Profile() {
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  useEffect(() => {
+    carregarDados();
+  }, [carregarDados]);
 
   async function atualizarPerfil() {
     try {
