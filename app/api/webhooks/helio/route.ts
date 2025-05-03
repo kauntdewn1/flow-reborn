@@ -3,63 +3,58 @@ import { NextResponse } from 'next/server'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
 export async function POST(request: Request) {
   try {
     const payload = await request.json()
-    const { buyer_wallet, amount, reference, status } = payload
+    const signature = request.headers.get("helio-signature")
 
-    if (status === 'PAID') {
-      // Buscar usuário pelo wallet
-      const { data: user, error: userError } = await supabase
-        .from('users')
-        .select('id')
-        .eq('wallet', buyer_wallet)
-        .single()
+    // TODO: Implementar verificação de assinatura
+    // if (!verifySignature(payload, signature)) {
+    //   return NextResponse.json({ error: "Invalid signature" }, { status: 401 })
+    // }
 
-      if (userError) {
-        console.error('Erro ao buscar usuário:', userError)
-        return NextResponse.json({ error: 'Usuário não encontrado' }, { status: 400 })
-      }
+    const { event, data } = payload
 
-      // Atualizar status de acesso
-      const { error: updateError } = await supabase
-        .from('users')
-        .update({ 
-          acesso_bunker: true,
-          data_pagamento: new Date().toISOString(),
-          status_pagamento: 'PAID'
-        })
-        .eq('id', user.id)
+    if (event === "payment.success") {
+      const { customer, payment } = data
 
-      if (updateError) {
-        console.error('Erro ao atualizar usuário:', updateError)
-        return NextResponse.json({ error: 'Erro ao atualizar acesso' }, { status: 500 })
-      }
-
-      // Registrar transação
+      // Registrar transação no Supabase
       const { error: transactionError } = await supabase
         .from('transactions')
         .insert({
-          user_id: user.id,
-          amount,
-          reference,
-          status: 'PAID',
-          wallet: buyer_wallet
+          customer_id: customer.id,
+          payment_id: payment.id,
+          amount: payment.amount,
+          currency: payment.currency,
+          status: payment.status,
+          metadata: payment.metadata,
         })
 
       if (transactionError) {
         console.error('Erro ao registrar transação:', transactionError)
+        return NextResponse.json({ error: 'Failed to record transaction' }, { status: 500 })
       }
 
-      return NextResponse.json({ message: 'Pagamento confirmado' })
+      // Atualizar status de acesso do usuário
+      const { error: userError } = await supabase
+        .from('users')
+        .update({ has_access: true })
+        .eq('email', customer.email)
+
+      if (userError) {
+        console.error('Erro ao atualizar acesso do usuário:', userError)
+        return NextResponse.json({ error: 'Failed to update user access' }, { status: 500 })
+      }
+
+      return NextResponse.json({ success: true })
     }
 
-    return NextResponse.json({ error: 'Pagamento não confirmado' }, { status: 400 })
+    return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Erro no webhook:', error)
-    return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 } 

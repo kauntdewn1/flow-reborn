@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function CallToAction() {
   return (
@@ -26,15 +27,12 @@ export default function CallToAction() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a 
-              href="https://app.hel.io/pay/68115cb08aced19aace0fcf2"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/checkout"
+              className="inline-flex items-center px-8 py-3 text-lg font-medium text-black bg-green-500 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
             >
-              <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-lg text-xl font-bold transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20">
-                ENTRAR E RECONHECER O CAOS
-              </button>
-            </a>
+              ENTRAR
+            </Link>
           </motion.div>
           
           <p className="mt-6 text-zinc-500 text-sm">

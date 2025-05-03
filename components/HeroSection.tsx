@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 export default function HeroSection() {
   const [wordIndex, setWordIndex] = useState(0)
@@ -81,15 +82,12 @@ export default function HeroSection() {
         transition={{ delay: 0.8 }}
         className="relative z-20"
       >
-        <a 
-          href="https://app.hel.io/pay/68115cb08aced19aace0fcf2"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/checkout"
+          className="inline-flex items-center px-8 py-3 text-lg font-medium text-black bg-green-500 border border-transparent rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
         >
-          <button className="bg-[#8b0000] hover:bg-[#b30000] text-white px-6 py-3 md:px-10 md:py-4 rounded-lg text-base md:text-lg font-bold tracking-wider transition-all duration-300 shadow-lg shadow-black/40">
-            ENTRAR E RECONHECER O CAOS
-          </button>
-        </a>
+          ENTRAR
+        </Link>
       </motion.div>
 
       {/* Texto com palavras alternadas */}

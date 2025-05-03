@@ -41,9 +41,11 @@ Este documento lista todas as dependências essenciais e recomendações de bibl
 ### Backend e Autenticação
 
 =======
+
 - **react-hot-toast**
 
 ### Backend e Autenticação
+>>>>>>>
 >>>>>>> 8f9ea7144e3fa3bee6d4c572676de5da6f16104a
 - **@supabase/supabase-js**
 - **@supabase/auth-helpers-nextjs** *(se necessário para autenticação mais avançada)*
