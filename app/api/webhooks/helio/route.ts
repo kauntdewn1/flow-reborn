@@ -3,56 +3,28 @@ import { NextResponse } from 'next/server';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const payload = await request.json();
-    const signature = request.headers.get('helio-signature');
+    const body = await req.json();
 
-    // TODO: Implementar verificação de assinatura
-    // if (!verifySignature(payload, signature)) {
-    //   return NextResponse.json({ error: "Invalid signature" }, { status: 401 })
-    // }
+    if (body.event === 'HELIO:PAYMENT_COMPLETED') {
+      const { payment } = body;
+      const correlationID = payment.correlationID;
 
-    const { event, data } = payload;
+      console.log(`💥 Pagamento recebido. Desbloquear acesso para: ${correlationID}`);
 
-    if (event === 'payment.success') {
-      const { customer, payment } = data;
-
-      // Registrar transação no Supabase
-      const { error: transactionError } = await supabase.from('transactions').insert({
-        customer_id: customer.id,
-        payment_id: payment.id,
-        amount: payment.amount,
-        currency: payment.currency,
-        status: payment.status,
-        metadata: payment.metadata,
-      });
-
-      if (transactionError) {
-        console.error('Erro ao registrar transação:', transactionError);
-        return NextResponse.json({ error: 'Failed to record transaction' }, { status: 500 });
-      }
-
-      // Atualizar status de acesso do usuário
-      const { error: userError } = await supabase
-        .from('users')
-        .update({ has_access: true })
-        .eq('email', customer.email);
-
-      if (userError) {
-        console.error('Erro ao atualizar acesso do usuário:', userError);
-        return NextResponse.json({ error: 'Failed to update user access' }, { status: 500 });
-      }
-
-      return NextResponse.json({ success: true });
+      // Aqui você pode: chamar um bot, salvar no DB, enviar e-mail etc.
     }
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Erro no webhook:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ status: 'success', received: true });
+  } catch (err) {
+    console.error('Erro no webhook:', err);
+    return NextResponse.json(
+      { error: 'Erro interno no webhook' },
+      { status: 500 }
+    );
   }
 }
