@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
@@ -20,5 +21,6 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["node_modules/", ".next/", "out/", "public/"]
 }
