@@ -22,10 +22,10 @@ const nextConfig = {
         buildDependencies: {
           config: [__filename],
         },
-      }
+      };
     }
-    return config
+    return config;
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
