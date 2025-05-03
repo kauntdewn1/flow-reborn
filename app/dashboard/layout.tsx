@@ -1,35 +1,33 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
-import { Toaster } from 'react-hot-toast'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const router = useRouter()
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
 
   useEffect(() => {
-    verificarAcesso()
-  }, [])
+    verificarAcesso();
+  }, []);
 
   async function verificarAcesso() {
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (!session) {
-        router.push('/acesso')
-        return
+        router.push('/acesso');
+        return;
       }
 
       // Verifica se o usuário tem acesso ao dashboard
@@ -37,23 +35,21 @@ export default function DashboardLayout({
         .from('users')
         .select('acesso_bunker')
         .eq('id', session.user.id)
-        .single()
+        .single();
 
       if (error || !user?.acesso_bunker) {
-        router.push('/acesso')
+        router.push('/acesso');
       }
     } catch (error) {
-      console.error('Erro ao verificar acesso:', error)
-      router.push('/acesso')
+      console.error('Erro ao verificar acesso:', error);
+      router.push('/acesso');
     }
   }
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
       <Header />
-      <main className="flex-1 pt-20 px-4 sm:px-6 lg:px-8">
-        {children}
-      </main>
+      <main className="flex-1 pt-20 px-4 sm:px-6 lg:px-8">{children}</main>
       <Footer />
 
       {/* Configuração do Toaster */}
@@ -69,5 +65,5 @@ export default function DashboardLayout({
         }}
       />
     </div>
-  )
+  );
 }

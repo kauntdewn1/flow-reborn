@@ -1,79 +1,74 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { createClient } from '@supabase/supabase-js'
-import { toast } from 'react-hot-toast'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { createClient } from '@supabase/supabase-js';
+import { toast } from 'react-hot-toast';
+import Link from 'next/link';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 interface User {
-  id: string
-  codinome: string
-  nivel: number
-  pontos: number
-  acesso_bunker: boolean
-  ultimo_acesso: string
+  id: string;
+  codinome: string;
+  nivel: number;
+  pontos: number;
+  acesso_bunker: boolean;
+  ultimo_acesso: string;
 }
 
 interface Modulo {
-  id: string
-  titulo: string
-  progresso: number
-  desbloqueado: boolean
-  proxima_missao?: string
+  id: string;
+  titulo: string;
+  progresso: number;
+  desbloqueado: boolean;
+  proxima_missao?: string;
 }
 
 interface Missao {
-  id: string
-  titulo: string
-  descricao: string
-  prazo: string
-  tipo: 'funil' | 'blackhat'
-  prioridade: 'alta' | 'media' | 'baixa'
+  id: string;
+  titulo: string;
+  descricao: string;
+  prazo: string;
+  tipo: 'funil' | 'blackhat';
+  prioridade: 'alta' | 'media' | 'baixa';
 }
 
 interface Ranking {
-  codinome: string
-  pontos: number
-  nivel: number
+  codinome: string;
+  pontos: number;
+  nivel: number;
 }
 
 export default function Dashboard() {
-  const [user, setUser] = useState<User | null>(null)
-  const [modulos, setModulos] = useState<Modulo[]>([])
-  const [missoes, setMissoes] = useState<Missao[]>([])
-  const [ranking, setRanking] = useState<Ranking[]>([])
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null);
+  const [modulos, setModulos] = useState<Modulo[]>([]);
+  const [missoes, setMissoes] = useState<Missao[]>([]);
+  const [ranking, setRanking] = useState<Ranking[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    carregarDados()
-  }, [])
+    carregarDados();
+  }, []);
 
   async function carregarDados() {
     try {
-      setLoading(true)
-      const { data: { session } } = await supabase.auth.getSession()
-      
+      setLoading(true);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (!session) {
-        toast.error('Sessão expirada')
-        return
+        toast.error('Sessão expirada');
+        return;
       }
 
       const [userRes, modulosRes, missoesRes, rankingRes] = await Promise.all([
-        supabase
-          .from('users')
-          .select('*')
-          .eq('id', session.user.id)
-          .single(),
-        supabase
-          .from('modulos')
-          .select('*')
-          .order('id'),
+        supabase.from('users').select('*').eq('id', session.user.id).single(),
+        supabase.from('modulos').select('*').order('id'),
         supabase
           .from('missoes')
           .select('*')
@@ -83,23 +78,23 @@ export default function Dashboard() {
           .from('users')
           .select('codinome, pontos, nivel')
           .order('pontos', { ascending: false })
-          .limit(5)
-      ])
+          .limit(5),
+      ]);
 
-      if (userRes.error) throw userRes.error
-      if (modulosRes.error) throw modulosRes.error
-      if (missoesRes.error) throw missoesRes.error
-      if (rankingRes.error) throw rankingRes.error
+      if (userRes.error) throw userRes.error;
+      if (modulosRes.error) throw modulosRes.error;
+      if (missoesRes.error) throw missoesRes.error;
+      if (rankingRes.error) throw rankingRes.error;
 
-      setUser(userRes.data)
-      setModulos(modulosRes.data || [])
-      setMissoes(missoesRes.data || [])
-      setRanking(rankingRes.data || [])
+      setUser(userRes.data);
+      setModulos(modulosRes.data || []);
+      setMissoes(missoesRes.data || []);
+      setRanking(rankingRes.data || []);
     } catch (error) {
-      toast.error('Erro ao carregar dados')
-      console.error(error)
+      toast.error('Erro ao carregar dados');
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -108,10 +103,10 @@ export default function Dashboard() {
       <div className="flex items-center justify-center min-h-screen bg-black text-green-500 font-mono">
         <div className="animate-pulse">INICIALIZANDO SISTEMA...</div>
       </div>
-    )
+    );
   }
 
-  if (!user) return null
+  if (!user) return null;
 
   return (
     <div className="min-h-screen bg-black text-green-500 font-mono p-8">
@@ -183,9 +178,7 @@ export default function Dashboard() {
             >
               <p className="text-2xl mb-2">🎖️</p>
               <p className="font-bold">MISSÕES</p>
-              <p className="text-sm opacity-75">
-                {missoes.length} PENDENTES
-              </p>
+              <p className="text-sm opacity-75">{missoes.length} PENDENTES</p>
             </motion.div>
           </Link>
         </div>
@@ -200,9 +193,7 @@ export default function Dashboard() {
               <div key={modulo.id} className="bg-black p-4 rounded border border-green-500">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold">{modulo.titulo}</h3>
-                  <span className="text-sm">
-                    {modulo.progresso}% COMPLETO
-                  </span>
+                  <span className="text-sm">{modulo.progresso}% COMPLETO</span>
                 </div>
                 <div className="w-full bg-gray-900 rounded-full h-2">
                   <div
@@ -211,9 +202,7 @@ export default function Dashboard() {
                   />
                 </div>
                 {modulo.proxima_missao && (
-                  <p className="text-sm mt-2 opacity-75">
-                    Próxima missão: {modulo.proxima_missao}
-                  </p>
+                  <p className="text-sm mt-2 opacity-75">Próxima missão: {modulo.proxima_missao}</p>
                 )}
               </div>
             ))}
@@ -231,9 +220,7 @@ export default function Dashboard() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 className={`bg-black p-4 rounded border ${
-                  rank.codinome === user.codinome
-                    ? 'border-yellow-500'
-                    : 'border-green-500'
+                  rank.codinome === user.codinome ? 'border-yellow-500' : 'border-green-500'
                 }`}
               >
                 <div className="flex justify-between items-center">
@@ -264,13 +251,15 @@ export default function Dashboard() {
               >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-bold">{missao.titulo}</h3>
-                  <span className={`text-sm px-2 py-1 rounded ${
-                    missao.prioridade === 'alta'
-                      ? 'bg-red-500 text-white'
-                      : missao.prioridade === 'media'
-                      ? 'bg-yellow-500 text-black'
-                      : 'bg-green-500 text-black'
-                  }`}>
+                  <span
+                    className={`text-sm px-2 py-1 rounded ${
+                      missao.prioridade === 'alta'
+                        ? 'bg-red-500 text-white'
+                        : missao.prioridade === 'media'
+                          ? 'bg-yellow-500 text-black'
+                          : 'bg-green-500 text-black'
+                    }`}
+                  >
                     {missao.prioridade.toUpperCase()}
                   </span>
                 </div>
@@ -284,5 +273,5 @@ export default function Dashboard() {
         </section>
       </div>
     </div>
-  )
+  );
 }

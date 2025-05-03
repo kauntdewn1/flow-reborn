@@ -1,39 +1,39 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const palavras = ['falido', 'fudido', 'quebrado', 'perdido']
+const palavras = ['falido', 'fudido', 'quebrado', 'perdido'];
 
 export default function Landing() {
-  const [palavraAtual, setPalavraAtual] = useState(0)
-  const [glitch, setGlitch] = useState(false)
+  const [palavraAtual, setPalavraAtual] = useState(0);
+  const [glitch, setGlitch] = useState(false);
 
   useEffect(() => {
     // Troca de palavras
     const intervalo = setInterval(() => {
-      setPalavraAtual((prev) => (prev + 1) % palavras.length)
-    }, 2000)
+      setPalavraAtual(prev => (prev + 1) % palavras.length);
+    }, 2000);
 
     // Efeito glitch
     const glitchInterval = setInterval(() => {
-      setGlitch(true)
-      setTimeout(() => setGlitch(false), 100)
-    }, 3000)
+      setGlitch(true);
+      setTimeout(() => setGlitch(false), 100);
+    }, 3000);
 
     return () => {
-      clearInterval(intervalo)
-      clearInterval(glitchInterval)
-    }
-  }, [])
+      clearInterval(intervalo);
+      clearInterval(glitchInterval);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Background com Noise */}
       <div className="fixed inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
-      
+
       {/* Efeito Strobe */}
       <div className="fixed inset-0 bg-gradient-to-b from-transparent via-red-500/5 to-transparent h-[2px] animate-scan" />
 
@@ -66,11 +66,9 @@ export default function Landing() {
             <span className="block">Essa porra não é curso.</span>
             <span className="block text-red-500">É sobrevivência digital.</span>
           </h1>
-          
-          <p className="text-2xl md:text-3xl mb-4">
-            Pra quem tá devendo,
-          </p>
-          
+
+          <p className="text-2xl md:text-3xl mb-4">Pra quem tá devendo,</p>
+
           <motion.p
             key={palavraAtual}
             initial={{ opacity: 0, y: 20 }}
@@ -80,10 +78,8 @@ export default function Landing() {
           >
             {palavras[palavraAtual]}
           </motion.p>
-          
-          <p className="text-xl md:text-2xl">
-            e ainda quer ganhar dinheiro no próprio caos.
-          </p>
+
+          <p className="text-xl md:text-2xl">e ainda quer ganhar dinheiro no próprio caos.</p>
         </motion.div>
 
         {/* Botões */}
@@ -102,7 +98,7 @@ export default function Landing() {
               ENTRAR
             </motion.button>
           </Link>
-          
+
           <Link href="/invites">
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -115,5 +111,5 @@ export default function Landing() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

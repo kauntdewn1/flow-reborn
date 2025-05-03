@@ -31,16 +31,16 @@ Este documento lista todas as dependências essenciais e recomendações de bibl
 ### Backend e Autenticação
 
 - **@supabase/supabase-js**
-- **@supabase/auth-helpers-nextjs** *(se necessário para autenticação mais avançada)*
+- **@supabase/auth-helpers-nextjs** _(se necessário para autenticação mais avançada)_
 
 ### Utilitários
 
-- **clsx** *(condicional de classes)*
-- **date-fns** *(formatação de datas)*
+- **clsx** _(condicional de classes)_
+- **date-fns** _(formatação de datas)_
 
 ### SEO & Head Management
 
-- **next/head** *(já incluso no Next.js)*
+- **next/head** _(já incluso no Next.js)_
 
 ### Adicionais
 

@@ -1,83 +1,83 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { createClient } from '@supabase/supabase-js'
-import { toast } from 'react-hot-toast'
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { createClient } from '@supabase/supabase-js';
+import { toast } from 'react-hot-toast';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 interface Modulo {
-  id: string
-  titulo: string
-  descricao: string
-  desbloqueado: boolean
-  senha?: string
+  id: string;
+  titulo: string;
+  descricao: string;
+  desbloqueado: boolean;
+  senha?: string;
 }
 
 interface Missao {
-  id: string
-  titulo: string
-  descricao: string
-  prazo: string
-  tipo: 'funil' | 'blackhat'
+  id: string;
+  titulo: string;
+  descricao: string;
+  prazo: string;
+  tipo: 'funil' | 'blackhat';
 }
 
 export default function Bunker() {
-  const [modulos, setModulos] = useState<Modulo[]>([])
-  const [missoes, setMissoes] = useState<Missao[]>([])
-  const [loading, setLoading] = useState(true)
-  const [senhaModulo, setSenhaModulo] = useState('')
+  const [modulos, setModulos] = useState<Modulo[]>([]);
+  const [missoes, setMissoes] = useState<Missao[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [senhaModulo, setSenhaModulo] = useState('');
 
   useEffect(() => {
-    carregarDados()
-  }, [])
+    carregarDados();
+  }, []);
 
   async function carregarDados() {
     try {
-      setLoading(true)
+      setLoading(true);
       const [modulosRes, missoesRes] = await Promise.all([
         supabase.from('modulos').select('*'),
-        supabase.from('missoes').select('*').eq('ativa', true)
-      ])
+        supabase.from('missoes').select('*').eq('ativa', true),
+      ]);
 
-      if (modulosRes.error) throw modulosRes.error
-      if (missoesRes.error) throw missoesRes.error
+      if (modulosRes.error) throw modulosRes.error;
+      if (missoesRes.error) throw missoesRes.error;
 
-      setModulos(modulosRes.data || [])
-      setMissoes(missoesRes.data || [])
+      setModulos(modulosRes.data || []);
+      setMissoes(missoesRes.data || []);
     } catch (error) {
-      toast.error('Erro ao carregar dados do bunker')
-      console.error(error)
+      toast.error('Erro ao carregar dados do bunker');
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function tentarDesbloquearModulo(moduloId: string) {
     try {
-      const modulo = modulos.find(m => m.id === moduloId)
-      if (!modulo) return
+      const modulo = modulos.find(m => m.id === moduloId);
+      if (!modulo) return;
 
       if (senhaModulo === modulo.senha) {
         const { error } = await supabase
           .from('modulos')
           .update({ desbloqueado: true })
-          .eq('id', moduloId)
+          .eq('id', moduloId);
 
-        if (error) throw error
+        if (error) throw error;
 
-        toast.success('Módulo desbloqueado com sucesso!')
-        carregarDados()
+        toast.success('Módulo desbloqueado com sucesso!');
+        carregarDados();
       } else {
-        toast.error('Senha incorreta')
+        toast.error('Senha incorreta');
       }
     } catch (error) {
-      toast.error('Erro ao desbloquear módulo')
-      console.error(error)
+      toast.error('Erro ao desbloquear módulo');
+      console.error(error);
     }
   }
 
@@ -86,7 +86,7 @@ export default function Bunker() {
       <div className="flex items-center justify-center min-h-screen bg-black text-green-500 font-mono">
         <div className="animate-pulse">CARREGANDO BUNKER...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -105,11 +105,7 @@ export default function Bunker() {
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">🧠 BRIEFING DE GUERRA</h2>
         <div className="bg-gray-900 p-4 rounded border border-green-500">
-          <video
-            className="w-full rounded"
-            controls
-            poster="/thumbnail-briefing.jpg"
-          >
+          <video className="w-full rounded" controls poster="/thumbnail-briefing.jpg">
             <source src="/briefing.mp4" type="video/mp4" />
             Seu navegador não suporta vídeos.
           </video>
@@ -128,13 +124,13 @@ export default function Bunker() {
             >
               <h3 className="text-xl font-bold mb-2">{modulo.titulo}</h3>
               <p className="text-sm opacity-75 mb-4">{modulo.descricao}</p>
-              
+
               {!modulo.desbloqueado && (
                 <div className="space-y-2">
                   <input
                     type="password"
                     value={senhaModulo}
-                    onChange={(e) => setSenhaModulo(e.target.value)}
+                    onChange={e => setSenhaModulo(e.target.value)}
                     className="w-full bg-black border border-green-500 p-2 rounded"
                     placeholder="Digite a senha..."
                   />
@@ -223,5 +219,5 @@ export default function Bunker() {
         <p>Aqui ou tu vira máquina de vender... ou desliga a porra do wi-fi.</p>
       </footer>
     </div>
-  )
+  );
 }

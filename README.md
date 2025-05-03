@@ -12,18 +12,18 @@ npm install
 
 ### 🧱 Pacotes Essenciais
 
-| Pacote | Função Principal |
-|--------|------------------|
-| next | Framework React para SSR e SSG |
-| react | Biblioteca base para UI |
-| typescript | Tipagem estática segura |
-| tailwindcss | Estilização rápida e responsiva |
-| lucide-react | Ícones modernos e leves |
-| framer-motion | Animações insanas (motion, transitions) |
-| react-hot-toast | Toasts para notificações e feedbacks |
-| @supabase/supabase-js | Integração com Supabase |
-| clsx | Combinar classes CSS com lógica condicional |
-| eslint, prettier | Padrões de código e formatação automática |
+| Pacote                | Função Principal                                   |
+| --------------------- | -------------------------------------------------- |
+| next                  | Framework React para SSR e SSG                     |
+| react                 | Biblioteca base para UI                            |
+| typescript            | Tipagem estática segura                            |
+| tailwindcss           | Estilização rápida e responsiva                    |
+| lucide-react          | Ícones modernos e leves                            |
+| framer-motion         | Animações insanas (motion, transitions)            |
+| react-hot-toast       | Toasts para notificações e feedbacks               |
+| @supabase/supabase-js | Integração com Supabase                            |
+| clsx                  | Combinar classes CSS com lógica condicional        |
+| eslint, prettier      | Padrões de código e formatação automática          |
 | postcss, autoprefixer | Utilitários para o Tailwind funcionar corretamente |
 
 ### 🛠️ Comandos Úteis

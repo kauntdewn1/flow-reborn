@@ -1,41 +1,43 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 export default function UpsellPage() {
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
-  const [temAcesso, setTemAcesso] = useState(false)
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [temAcesso, setTemAcesso] = useState(false);
 
   useEffect(() => {
-    verificarAcesso()
-  }, [])
+    verificarAcesso();
+  }, []);
 
   async function verificarAcesso() {
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) return
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) return;
 
       const { data } = await supabase
         .from('users')
         .select('acesso_bunker')
         .eq('id', session.user.id)
-        .single()
+        .single();
 
       if (data?.acesso_bunker) {
-        router.push('/dashboard')
+        router.push('/dashboard');
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -44,7 +46,7 @@ export default function UpsellPage() {
       <div className="flex items-center justify-center min-h-screen bg-black text-red-500 font-mono">
         <div className="animate-pulse">CARREGANDO PORTAL...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -54,8 +56,8 @@ export default function UpsellPage() {
       </h1>
 
       <p className="text-lg md:text-xl max-w-2xl mb-8 text-zinc-300">
-        O resto está trancado dentro do bunker. Aqui só entra quem paga com ação.
-        Quem prefere fazer parte do jogo ao invés de assistir.
+        O resto está trancado dentro do bunker. Aqui só entra quem paga com ação. Quem prefere fazer
+        parte do jogo ao invés de assistir.
       </p>
 
       <div className="bg-zinc-800 rounded-lg p-6 w-full max-w-xl mb-8">
@@ -109,5 +111,5 @@ export default function UpsellPage() {
         "O mapa está nas suas mãos. Mas só os filhos do caos conseguem ler."
       </div>
     </section>
-  )
+  );
 }

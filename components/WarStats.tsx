@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 const stats = [
   { label: 'Soldados Ativos', value: '1.2k+' },
   { label: 'Missões Concluídas', value: '5.4k+' },
   { label: 'Taxa de Sobrevivência', value: '94%' },
-  { label: 'Horas de Treinamento', value: '10k+' }
-]
+  { label: 'Horas de Treinamento', value: '10k+' },
+];
 
 export default function WarStats() {
   return (
@@ -23,16 +23,12 @@ export default function WarStats() {
               transition={{ delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="text-3xl md:text-4xl font-bold text-red-600 mb-2">
-                {stat.value}
-              </div>
-              <div className="text-zinc-400 text-sm md:text-base">
-                {stat.label}
-              </div>
+              <div className="text-3xl md:text-4xl font-bold text-red-600 mb-2">{stat.value}</div>
+              <div className="text-zinc-400 text-sm md:text-base">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
-  )
-} 
+  );
+}

@@ -1,49 +1,49 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { createClient } from '@supabase/supabase-js'
-import { toast } from 'react-hot-toast'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { createClient } from '@supabase/supabase-js';
+import { toast } from 'react-hot-toast';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 export default function Invites() {
   const [formData, setFormData] = useState({
     email: '',
     codinome: '',
     whatsapp: '',
-    codigo: ''
-  })
-  const [loading, setLoading] = useState(false)
+    codigo: '',
+  });
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('interessados')
-        .insert([{
+      const { error } = await supabase.from('interessados').insert([
+        {
           email: formData.email.toLowerCase(),
           codinome: formData.codinome,
           whatsapp: formData.whatsapp,
           codigo_invite: formData.codigo || null,
           status: 'pendente',
-          created_at: new Date().toISOString()
-        }])
+          created_at: new Date().toISOString(),
+        },
+      ]);
 
-      if (error) throw error
+      if (error) throw error;
 
-      toast.success('Sinal recebido. Aguarde contato.')
-      setFormData({ email: '', codinome: '', whatsapp: '', codigo: '' })
+      toast.success('Sinal recebido. Aguarde contato.');
+      setFormData({ email: '', codinome: '', whatsapp: '', codigo: '' });
     } catch (error) {
-      console.error(error)
-      toast.error('Erro ao enviar sinal')
+      console.error(error);
+      toast.error('Erro ao enviar sinal');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -75,18 +75,12 @@ export default function Invites() {
           transition={{ delay: 0.2 }}
           className="prose prose-invert max-w-none mb-12"
         >
-          <p className="text-lg mb-4">
-            Ainda não é sua hora.
-          </p>
-          <p className="text-lg mb-4">
-            Mas talvez... se alguém do Bunker te notar, você entre.
-          </p>
+          <p className="text-lg mb-4">Ainda não é sua hora.</p>
+          <p className="text-lg mb-4">Mas talvez... se alguém do Bunker te notar, você entre.</p>
           <p className="text-lg mb-4">
             Deixe seu e-mail e um codinome. Se tiver um convite, prove.
           </p>
-          <p className="text-lg font-bold">
-            A próxima seleção pode ser agora.
-          </p>
+          <p className="text-lg font-bold">A próxima seleção pode ser agora.</p>
         </motion.div>
 
         {/* Formulário */}
@@ -102,7 +96,7 @@ export default function Invites() {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={e => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-black border border-green-500 p-3 rounded focus:outline-none focus:border-green-400"
                 required
               />
@@ -113,7 +107,7 @@ export default function Invites() {
               <input
                 type="text"
                 value={formData.codinome}
-                onChange={(e) => setFormData({ ...formData, codinome: e.target.value })}
+                onChange={e => setFormData({ ...formData, codinome: e.target.value })}
                 className="w-full bg-black border border-green-500 p-3 rounded focus:outline-none focus:border-green-400"
                 required
               />
@@ -124,7 +118,7 @@ export default function Invites() {
               <input
                 type="tel"
                 value={formData.whatsapp}
-                onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                onChange={e => setFormData({ ...formData, whatsapp: e.target.value })}
                 className="w-full bg-black border border-green-500 p-3 rounded focus:outline-none focus:border-green-400"
                 required
               />
@@ -135,7 +129,7 @@ export default function Invites() {
               <input
                 type="text"
                 value={formData.codigo}
-                onChange={(e) => setFormData({ ...formData, codigo: e.target.value })}
+                onChange={e => setFormData({ ...formData, codigo: e.target.value })}
                 className="w-full bg-black border border-green-500 p-3 rounded focus:outline-none focus:border-green-400"
               />
             </div>
@@ -144,9 +138,7 @@ export default function Invites() {
               type="submit"
               disabled={loading}
               className={`w-full bg-green-500 text-black p-4 rounded font-bold text-lg transition-colors ${
-                loading
-                  ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-green-600'
+                loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600'
               }`}
             >
               {loading ? 'ENVIANDO SINAL...' : 'QUERO ENTRAR PRO BUNKER'}
@@ -165,5 +157,5 @@ export default function Invites() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }

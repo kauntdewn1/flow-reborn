@@ -1,108 +1,103 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-import { motion, AnimatePresence } from 'framer-motion'
-import { toast } from 'react-hot-toast'
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 interface User {
-  id: string
-  codinome: string
-  divida: number
-  email: string
-  created_at: string
+  id: string;
+  codinome: string;
+  divida: number;
+  email: string;
+  created_at: string;
 }
 
 interface Modulo {
-  id: string
-  slug: string
-  desbloqueado_por: string[]
+  id: string;
+  slug: string;
+  desbloqueado_por: string[];
 }
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 export default function PainelDoCaos() {
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [modulos, setModulos] = useState<Modulo[]>([])
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [modulos, setModulos] = useState<Modulo[]>([]);
 
   useEffect(() => {
-    fetchUsers()
-    fetchModulos()
-  }, [])
+    fetchUsers();
+    fetchModulos();
+  }, []);
 
   async function fetchUsers() {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data, error } = await supabase
         .from('users')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: false });
 
-      if (error) throw error
-      setUsers(data || [])
+      if (error) throw error;
+      setUsers(data || []);
     } catch (error) {
-      toast.error('Erro ao carregar usuários')
-      console.error(error)
+      toast.error('Erro ao carregar usuários');
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function fetchModulos() {
     try {
-      const { data, error } = await supabase
-        .from('modulos')
-        .select('*')
+      const { data, error } = await supabase.from('modulos').select('*');
 
-      if (error) throw error
-      setModulos(data || [])
+      if (error) throw error;
+      setModulos(data || []);
     } catch (error) {
-      toast.error('Erro ao carregar módulos')
-      console.error(error)
+      toast.error('Erro ao carregar módulos');
+      console.error(error);
     }
   }
 
   async function banUser(id: string, codinome: string) {
     try {
-      const { error } = await supabase
-        .from('users')
-        .delete()
-        .eq('id', id)
+      const { error } = await supabase.from('users').delete().eq('id', id);
 
-      if (error) throw error
-      
-      toast.success(`${codinome} foi banido com sucesso!`)
-      fetchUsers()
+      if (error) throw error;
+
+      toast.success(`${codinome} foi banido com sucesso!`);
+      fetchUsers();
     } catch (error) {
-      toast.error('Erro ao banir usuário')
-      console.error(error)
+      toast.error('Erro ao banir usuário');
+      console.error(error);
     }
   }
 
   async function liberarModulo(userId: string, moduloSlug: string) {
     try {
-      const modulo = modulos.find(m => m.slug === moduloSlug)
-      if (!modulo) throw new Error('Módulo não encontrado')
+      const modulo = modulos.find(m => m.slug === moduloSlug);
+      if (!modulo) throw new Error('Módulo não encontrado');
 
-      const desbloqueados = modulo.desbloqueado_por || []
-      const atualizados = [...new Set([...desbloqueados, userId])]
+      const desbloqueados = modulo.desbloqueado_por || [];
+      const atualizados = [...new Set([...desbloqueados, userId])];
 
       const { error } = await supabase
         .from('modulos')
         .update({ desbloqueado_por: atualizados })
-        .eq('id', modulo.id)
+        .eq('id', modulo.id);
 
-      if (error) throw error
+      if (error) throw error;
 
-      toast.success('Módulo liberado com sucesso!')
-      fetchModulos()
+      toast.success('Módulo liberado com sucesso!');
+      fetchModulos();
     } catch (error) {
-      toast.error('Erro ao liberar módulo')
-      console.error(error)
+      toast.error('Erro ao liberar módulo');
+      console.error(error);
     }
   }
 
@@ -111,13 +106,13 @@ export default function PainelDoCaos() {
       <div className="flex items-center justify-center min-h-screen bg-black">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-red-600"></div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="bg-black text-white min-h-screen p-8 font-mono">
       <h1 className="text-3xl font-bold text-red-600 mb-6">PAINEL DO CAOS</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence>
           {users.map(user => (
@@ -136,7 +131,7 @@ export default function PainelDoCaos() {
               <p className="text-xs text-gray-500">
                 Criado em: {new Date(user.created_at).toLocaleDateString()}
               </p>
-              
+
               <div className="mt-4 flex flex-col gap-2">
                 <button
                   onClick={() => banUser(user.id, user.codinome)}
@@ -144,7 +139,7 @@ export default function PainelDoCaos() {
                 >
                   BANIR SEM DÓ
                 </button>
-                
+
                 {modulos.map(modulo => (
                   <button
                     key={modulo.id}
@@ -160,5 +155,5 @@ export default function PainelDoCaos() {
         </AnimatePresence>
       </div>
     </div>
-  )
-} 
+  );
+}

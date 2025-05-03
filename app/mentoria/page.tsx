@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function MentoriaPage() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleCTA = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       // Aqui você pode adicionar lógica de tracking ou redirecionamento
-      window.location.href = 'https://t.me/FlowRebornBot'
+      window.location.href = 'https://t.me/FlowRebornBot';
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -130,18 +130,20 @@ export default function MentoriaPage() {
           className="max-w-4xl mx-auto mb-20"
         >
           <h2 className="text-3xl font-bold text-center mb-12">ALGUNS QUE ENTRARAM NO FRONT</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-zinc-900/30 p-6 rounded-lg border border-red-500/20">
               <p className="text-zinc-300 italic mb-4">
-                &ldquo;Fiz mais em 30 dias do que nos últimos 2 anos. MELLØ não tem papas na língua, mas é exatamente o que eu precisava.&rdquo;
+                &ldquo;Fiz mais em 30 dias do que nos últimos 2 anos. MELLØ não tem papas na língua,
+                mas é exatamente o que eu precisava.&rdquo;
               </p>
               <p className="text-sm text-zinc-500">- Soldado #42</p>
             </div>
 
             <div className="bg-zinc-900/30 p-6 rounded-lg border border-red-500/20">
               <p className="text-zinc-300 italic mb-4">
-                &ldquo;A dívida continua, mas agora eu sou dono do campo de batalha. Cada chamada é um novo plano de ataque.&rdquo;
+                &ldquo;A dívida continua, mas agora eu sou dono do campo de batalha. Cada chamada é
+                um novo plano de ataque.&rdquo;
               </p>
               <p className="text-sm text-zinc-500">- Soldado #17</p>
             </div>
@@ -159,19 +161,17 @@ export default function MentoriaPage() {
             onClick={handleCTA}
             disabled={loading}
             className={`bg-red-500 text-white px-12 py-4 rounded-lg text-xl font-bold tracking-wider transition-all ${
-              loading
-                ? 'opacity-50 cursor-not-allowed'
-                : 'hover:bg-red-600 hover:scale-105'
+              loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-600 hover:scale-105'
             }`}
           >
             {loading ? 'PROCESSANDO...' : 'PASSAR PELA TRIAGEM'}
           </button>
-          
+
           <p className="text-zinc-500 text-sm mt-4">
             *Apenas quem for aprovado terá acesso à mentoria.
           </p>
         </motion.section>
       </div>
     </div>
-  )
+  );
 }

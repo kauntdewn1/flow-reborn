@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import HelioCheckoutComponent from "@/components/HelioCheckout";
-import { motion } from "framer-motion";
+import HelioCheckoutComponent from '@/components/HelioCheckout';
+import { motion } from 'framer-motion';
 
 export default function CheckoutPage() {
   return (
@@ -14,17 +14,15 @@ export default function CheckoutPage() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl font-bold mb-4">Acesso ao Bunker</h1>
-          <p className="text-gray-400">
-            Complete o pagamento para obter acesso ao Bunker
-          </p>
+          <p className="text-gray-400">Complete o pagamento para obter acesso ao Bunker</p>
         </motion.div>
 
         <HelioCheckoutComponent
-          onSuccess={(payment) => {
-            console.log("Pagamento confirmado:", payment);
+          onSuccess={payment => {
+            console.log('Pagamento confirmado:', payment);
           }}
         />
       </div>
     </div>
   );
-} 
+}

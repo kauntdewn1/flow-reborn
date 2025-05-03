@@ -5,10 +5,6 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['@heliofi/checkout-react', 'framer-motion'],
-  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -32,4 +28,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig
