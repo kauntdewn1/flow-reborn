@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function UpsellPage() {
   const router = useRouter();
 
-  const verificarAcesso = async () => {
+  const verificarAcesso = useCallback(async () => {
     // sua lógica aqui
-  };
+  }, [router]);
 
   useEffect(() => {
     verificarAcesso();

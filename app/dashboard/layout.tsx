@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
@@ -15,7 +15,7 @@ const supabase = createClient(
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
-  const verificarAcesso = async () => {
+  const verificarAcesso = useCallback(async () => {
     try {
       const {
         data: { session },
@@ -40,7 +40,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       console.error('Erro ao verificar acesso:', error);
       router.push('/acesso');
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     verificarAcesso();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'react-hot-toast';
@@ -64,7 +64,7 @@ export default function Profile() {
     two_factor_enabled: false,
   });
 
-  const carregarDados = async () => {
+  const carregarDados = useCallback(async () => {
     try {
       setLoading(true);
       const {
@@ -121,7 +121,7 @@ export default function Profile() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     carregarDados();

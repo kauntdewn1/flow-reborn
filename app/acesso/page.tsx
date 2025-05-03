@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { createClient } from '@supabase/supabase-js';
 import { toast } from 'react-hot-toast';
@@ -12,7 +12,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default function AcessoPage() {
+function AccessContent() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -114,5 +114,13 @@ export default function AcessoPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function AccessPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <AccessContent />
+    </Suspense>
   );
 }
