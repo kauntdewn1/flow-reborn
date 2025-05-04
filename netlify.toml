@@ -1,12 +1,1 @@
-[build]
-  command = "npm run build"
-  publish = ".next"
-
-[dev]
-  command = "npm run dev"
-  targetPort = 3000
-  port = 8888
-  framework = "next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# Arquivo removido - Migrando para Railway 
